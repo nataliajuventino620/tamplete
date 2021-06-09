@@ -1,0 +1,52 @@
+
+CREATE TABLE TABLEA
+(
+ID INT,
+firstname NVARCHAR(50),
+lastname NVARCHAR(50),
+Mark FLOAT
+)
+
+INSERT INTO TABLEA
+VALUES (1,   'arun'                       ,'prasanth'                    ,40)
+INSERT INTO TABLEA
+VALUES (2,   'ann'                         ,'antony '                     ,45)
+INSERT INTO TABLEA
+VALUES (3,   'sruthy'                      ,'abc'                         ,41)
+INSERT INTO TABLEA
+VALUES (6,   'new'                         ,'abc'                         ,47)
+INSERT INTO TABLEA
+VALUES (1,   'arun'                        ,'prasanth'                    ,45)
+INSERT INTO TABLEA
+VALUES (1,   'arun'                        ,'prasanth'                    ,49)
+INSERT INTO TABLEA
+VALUES (2,   'ann'                         ,'antony'                      ,49)
+INSERT INTO TABLEA
+VALUES (1,   'TT'                        ,'prasanth'                    ,49)
+
+select * FROM TABLEA  WHERE  firstname = 'arun'
+
+select SUM(Mark)marksum,firstname from TableA  WHERE  firstname = 'arun'
+group by id,firstName
+
+SELECT SUM(SUM(Mark)) OVER (PARTITION BY id) AS marksum,
+       SUM(Mark) AS Mark , 
+        firstname,
+	    id,
+	   CONVERT(FLOAT,0) AS PC
+	   INTO #TTT
+FROM TableA 
+WHERE  id = 1
+GROUP BY firstname,id
+
+DELETE #TTT WHERE marksum BETWEEN -1 AND 1
+
+UPDATE #TTT SET PC = marksum /Mark
+
+SELECT * FROM #TTT
+
+
+SELECT Mark*PC FROM #TTT
+
+CREATE CLUSTERED INDEX #XX ON #TTT (id)
+
