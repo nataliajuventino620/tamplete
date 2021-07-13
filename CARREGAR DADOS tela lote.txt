@@ -1,0 +1,38 @@
+
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from PySimpleGUI import PySimpleGUI as sg
+
+class telaPython:
+	"""Classe para o encapsulamento da lógica da tela"""
+	def __init__(self):   #defini as informações inicial que precisa dentro da classe
+		#Laytout
+		sg.change_look_and_feel('Topanga')
+		layout = [
+		   #[sg.Text('Usuario FU1',size=(10,1)), sg.Input(key='usuario', size=(20,1))],
+		   #[sg.Text('Senha FU1',size=(10,1)), sg.Input(key='senha',password_char='*', size=(20,1))],
+                   [sg.Text('MM/ANO',size=(10,1)), sg.Input(key='data', size=(20,1))],
+		   [sg.Text('Nº LOTE',size=(10,1)), sg.Input(key='lote', size=(20,1))],                   
+		   #[sg.Checkbox('Salvar o login?')],
+		   [sg.Button('Extrair')],
+		   [sg.Output(size=(30,20))]
+		]
+		#Janela
+		self.janela = sg.Window('Tela Extração').layout(layout)
+
+	def Iniciar(self):
+	#Ler os eventos
+		while True:
+			eventos, valores = self.janela.read()
+			if eventos == sg.WINDOW_CLOSED:
+				break
+			if eventos == 'Extrair':
+				#if valores['usuario'] == 'maria teste' and valores['senha'] == '123':
+					lote = valores['lote']
+					data = valores['data'] 
+					#lote = self.values['lote']
+					print(f'Lote listado:  {lote} \nMesAno: {data}')
+					
+
+tela = telaPython()
+tela.Iniciar()
