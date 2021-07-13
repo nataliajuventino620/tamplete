@@ -1,0 +1,27 @@
+
+----- SCRIPT PYTHON PARA RODAR BAT
+
+import os
+os.system(r"C:\Users\Amanda\source\repos\ETL\TESTE.bat")
+
+os.system(r"C:\Users\Amanda\source\repos\ETL\PROCESS_ARQUIVOS.bat")
+
+
+----- TESTE.bat
+
+"C:\Program Files\Microsoft SQL Server\120\DTS\Binn\DTExec.exe" /F "C:\Users\Amanda\source\repos\ETL\Integration Services Project1\Integration Services Project1\ProcessaArquivos.dtsx" 
+
+
+----- PROCESS_ARQUIVOS.bat
+
+REM -> 1 DELETE ARQUIVO TAMPLETE DA PASTA DE ARQUIVOS PROCESSADOS 
+del /q "C:\Users\Amanda\source\repos\ETL\Arquivos_Processados\TAMPLETE.xlsx"
+FOR /D %%p IN ("C:\Users\Amanda\source\repos\ETL\Arquivos_Processados\TAMPLETE.xlsx") DO rmdir "%%p" /s /q
+
+
+REM -> 2 MOVE OS ARQUIVOS DA PASTA TMP PARA A PASTA DE ARQUIVOS PROCESSADOS
+move C:\Users\Amanda\source\repos\ETL\Arquivos_Tmp\*.* C:\Users\Amanda\source\repos\ETL\Arquivos_Processados
+
+
+REM -> 3 COPIA O ARQUIVO TEMPLETE PARA A PASTA TMP
+copy "C:\Users\Amanda\source\repos\ETL\Arquivos_Processados\TAMPLETE.xlsx" "C:\Users\Amanda\source\repos\ETL\Arquivos_Tmp"
