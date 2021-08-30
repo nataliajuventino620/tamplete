@@ -1,0 +1,101 @@
+
+CREATE TABLE TAB_SQUD_V2
+(
+ID_SK_FONDATION_SQUAD [int] NULL,
+ID_ORGNAIZACAO [varchar](10) NULL,
+ID_COMUNIDADE [varchar](10) NULL,
+ID_RELEASE_TRAIN [varchar](10) NULL,
+ID_SQUAD [varchar](10) NULL,
+NM_SQUAD [varchar](10) NULL,
+DS_SQUAD [varchar](10) NULL,
+CD_TIPO_SQUAD [varchar](10) NULL,
+NM_TIPO_SQUAD [varchar](10) NULL,
+NM_NIVEL_HIERARQUIA [varchar](10) NULL,
+ID_QT_MEMBROS [int] NULL,
+DT_INICIO_HIERAQUIA [date] NULL,
+DT_FIM_HIERARQUIA [date] NULL,
+NM_NATUREZA_SQUAD [varchar](255) NULL,
+NM_PA_JIRA [varchar](50) NULL,
+DT_CRIACAO_SQUAD [date] NULL,
+DT_DESCONTINUIDADE_DADO_ORIGE [date] NULL,
+IN_FLAG_ATIVO [smallint] NULL
+)
+
+
+-- Criando a tabela com a mesma estrutura da original, mas adicionando colunas de controle
+IF (OBJECT_ID('TAB_SQUAD_LOG') IS NOT NULL) DROP TABLE TAB_SQUAD_LOG
+CREATE TABLE TAB_SQUAD_LOG (
+    ID INT IDENTITY(1, 1),
+    DT_ATUALIZACAO DATETIME DEFAULT GETDATE(),
+    [LOGIN] VARCHAR(100),
+    HOSTNAME VARCHAR(100),
+    OPERACAO VARCHAR(20),
+ 
+    -- Dados da tabela original
+ID_SK_FONDATION_SQUAD [int] NULL,
+ID_ORGNAIZACAO [varchar](10) NULL,
+ID_COMUNIDADE [varchar](10) NULL,
+ID_RELEASE_TRAIN [varchar](10) NULL,
+ID_SQUAD [varchar](10) NULL,
+NM_SQUAD [varchar](10) NULL,
+DS_SQUAD [varchar](10) NULL,
+CD_TIPO_SQUAD [varchar](10) NULL,
+NM_TIPO_SQUAD [varchar](10) NULL,
+NM_NIVEL_HIERARQUIA [varchar](10) NULL,
+ID_QT_MEMBROS [int] NULL,
+DT_INICIO_HIERAQUIA [date] NULL,
+DT_FIM_HIERARQUIA [date] NULL,
+NM_NATUREZA_SQUAD [varchar](255) NULL,
+NM_PA_JIRA [varchar](50) NULL,
+DT_CRIACAO_SQUAD [date] NULL,
+DT_DESCONTINUIDADE_DADO_ORIGE [date] NULL,
+IN_FLAG_ATIVO [smallint] NULL
+)
+GO
+
+IF ((SELECT COUNT(*) FROM sys.triggers WHERE name = 'trgHISTORICO_SQUAD' AND parent_id = OBJECT_ID('TAB_SQUD_V2')) > 0) DROP TRIGGER trgHISTORICO_SQUAD
+GO
+
+CREATE TRIGGER trgHISTORICO_SQUAD ON TAB_SQUD_V2 -- Tabela que a trigger será associada
+AFTER INSERT, UPDATE, DELETE AS
+BEGIN
+    
+    SET NOCOUNT ON
+ 
+    DECLARE 
+        @Login VARCHAR(100) = SYSTEM_USER, 
+        @HostName VARCHAR(100) = HOST_NAME(),
+        @Data DATETIME = GETDATE()
+        
+ 
+    IF (EXISTS(SELECT * FROM Inserted) AND EXISTS (SELECT * FROM Deleted))
+    BEGIN
+        
+        INSERT INTO TAB_SQUAD_LOG
+        SELECT @Data, @Login, @HostName, 'UPDATE', *
+        FROM Inserted
+ 
+    END
+    ELSE BEGIN
+ 
+        IF (EXISTS(SELECT * FROM Inserted))
+        BEGIN
+ 
+            INSERT INTO TAB_SQUAD_LOG
+            SELECT @Data, @Login, @HostName, 'INSERT', *
+            FROM Inserted
+ 
+        END
+        ELSE BEGIN
+ 
+            INSERT INTO TAB_SQUAD_LOG
+            SELECT @Data, @Login, @HostName, 'DELETE', *
+            FROM Deleted
+ 
+        END
+ 
+    END
+ 
+END
+GO
+
