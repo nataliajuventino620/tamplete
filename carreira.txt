@@ -1,0 +1,31 @@
+Plano de Evolução Academico
+
+Curto Prazo
+-- Entrega dos Projetos do Inglês
+-- Curso Tableau de A a Z
+-- Curso Python para data Science
+-- Desenho do Plano do Projeto tcc do MBA
+-- Escrita do Artigo Cientifico da matéria do Mestrado
+
+
+Médio Prazo
+-- AWS Certified Cloud Practitioner
+-- CP20
+-- Projeto do Mestrado para submissão
+
+Longo Prazo
+-- Formação no Mestrado em Computação na USP
+-- Formação MBA Data Sciente e Analyctis MBA USP
+-- Certificação Cound Big Data AWS
+
+
+Plano de Evolução Profissional
+
+Curto Prazo
+-- Entrega da modelagem do Cubo de MTTR para apoiar a area do densevolvimento de Cubo, por isto, estou compreendendo mais do negóio para apoiar a parte tecnica de forma mais acertiva
+-- Trazer os insites de Squad para podemos estudar esta metrica e desenvolver novos insgtsh para alavancar a Orgnaização
+-- 
+
+Médio Prazo
+
+Longo Prazo
